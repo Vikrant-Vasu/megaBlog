@@ -15,6 +15,7 @@ export class Service{
         this.databases = new Databases(this.client);
         this.bucket = new Storage(this.client);
     }
+    
     async createPost({title,slug,content,featuredImage,status, userId}) {
         try {
             return await this.databases.createDocument
@@ -29,6 +30,7 @@ export class Service{
                     userId,
 
                 }
+
                 )
 
         } catch (error) {
@@ -38,8 +40,7 @@ export class Service{
 
     async updatePost(slug, {title,content,featuredImage,status}) {
         try {
-            return await this.databases.updateDocument
-            (conf.appwriteDatabaseId,
+            return await this.databases.updateDocument(conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 slug,
                 {
@@ -57,7 +58,7 @@ export class Service{
 
     async deletePost(slug) {
         try {
-            return await this.databases.deleteDocument
+            await this.databases.deleteDocument
             (conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 slug
@@ -86,7 +87,7 @@ export class Service{
             return await this.databases.listDocuments
             (conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
-                queries
+                queries,
                 )
         } catch (error) {
             console.log("Appwrite service :: getPosts :: error", error);
@@ -102,7 +103,7 @@ export class Service{
                 conf.appwriteBucketId,
                 ID.unique(),
                 file
-            );
+            )
         } catch (error) {
             console.log("Appwrite service :: uploadFile :: error", error);
             return false;
@@ -124,7 +125,7 @@ export class Service{
     }
 
 }
-// now create an object of the service class if we give object then we can irectly get the values 
+// now create an object of the service class if we give object then we can directly get the values 
 const service = new Service();
 
 export default service;
